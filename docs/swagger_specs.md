@@ -1,309 +1,299 @@
-# Uni Hub — Swagger Specifications (Modular)
+# Master AI Script for Generating Uni Hub OpenAPI Modules
 
-> **Purpose:** This markdown is a machine- and human-friendly specification to generate a modular OpenAPI/Swagger set for the Uni Hub platform. Use each module spec (auth, users, posts, messages, qa, events, marketplace, notifications, resources, moderation) as a separate YAML/JSON file (e.g. `auth.yaml`, `users.yaml`, ...).
-
----
-
-## Table of Contents
-1. Goals & conventions
-2. Project-wide OpenAPI boilerplate
-3. Modules overview (files to produce)
-4. Module: Authentication — spec summary
-5. Module: Users & Profiles — spec summary
-6. Module: Posts & Comments — spec summary
-7. Module: Messaging & Conversations — spec summary
-8. Module: Q&A — spec summary
-9. Module: Events — spec summary
-10. Module: Marketplace — spec summary
-11. Module: Resources — spec summary
-12. Module: Notifications — spec summary
-13. Module: Moderation & Reports — spec summary
-14. Database → API mapping (selected models)
-15. Common schemas & examples
-16. Security, rate-limits, pagination, errors
-17. How to use this file (for AIs / tools)
-18. Next steps & checklist
+## Overview
+This script guides AI assistants to generate individual OpenAPI 3.0.3 module files for the Uni Hub platform. Each module should be self-contained but reference shared components.
 
 ---
 
-## 1) Goals & conventions
-- Produce **modular OpenAPI 3.0.3** files (YAML recommended).
-- One module per file. Each module includes: `paths`, `components/schemas` (local), references to shared `components` where needed.
-- Shared components (securitySchemes, ErrorResponse, Pagination, SuccessResponse) live in `/_components/shared.yaml` and are referenced by `$ref` from each module.
-- Use `servers` to point to `https://api.unihub.example.com` and local `http://localhost:3000` during development.
-- API base path: `/api/v1`.
-- Auth: `Bearer` JWT (access + refresh token flow).
-- Response envelope format (standardized):
+## Context Documents Required
+Before generating any module, ensure you have access to:
+1. **swagger_specs.md** - Complete API specification and conventions
+2. **shared.yaml** - Common schemas and components
+3. **Database schema** (Prisma) - For accurate field mappings
 
-```json
-{
-  "success": true,
-  "data": { ... },
-  "meta": { ... },
-  "timestamp": "2024-12-07T10:30:00Z"
-}
+---
+
+## Module Generation Prompt Template
+
+Use this template when asking AI to generate a module:
+
+```
+You are generating the OpenAPI 3.0.3 specification for the {MODULE_NAME} module of the Uni Hub platform.
+
+CONTEXT:
+- Read and follow ALL conventions in the swagger_specs.md document
+- Reference the shared.yaml file for common schemas
+- Match database fields from the Prisma schema when defining response objects
+
+MODULE: {MODULE_NAME}
+
+REQUIREMENTS:
+
+1. FILE STRUCTURE
+   - Filename: modules/{MODULE_NAME}.yaml
+   - Include ONLY these top-level keys:
+     * openapi: 3.0.3
+     * info: (title, version, description)
+     * paths:
+     * components: (if module has unique schemas)
+
+2. PATH DEFINITIONS
+   - Base path format: /api/v1/{resource}
+   - Include ALL paths listed in swagger_specs.md section for this module
+   - Each path must have:
+     * Correct HTTP method (GET, POST, PUT, DELETE)
+     * tags: [{MODULE_TAG}]
+     * summary: Brief description
+     * security: [] for public endpoints, omit for protected (uses global bearerAuth)
+     * parameters: (path, query, header as needed)
+     * requestBody: (for POST/PUT with schema and examples)
+     * responses: (200, 201, 400, 401, 403, 404, 500 as appropriate)
+
+3. RESPONSE STRUCTURE
+   Every successful response (2xx) must use the standard envelope:
+   ```yaml
+   schema:
+     allOf:
+       - $ref: "../shared.yaml#/components/schemas/SuccessResponse"
+       - type: object
+         properties:
+           data:
+             # Your response data here
+   ```
+
+4. SCHEMA REFERENCES
+   - Common types: Use $ref: "../shared.yaml#/components/schemas/{SchemaName}"
+   - Common schemas include: UUID, Timestamp, Meta, Pagination, ErrorResponse, SuccessResponse, UserSummary
+   - Module-specific schemas: Define in components/schemas section of this file
+
+5. EXAMPLES
+   - Include realistic example data for:
+     * Request bodies
+     * Response data
+     * Query parameters
+   - Use consistent UUIDs (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+   - Use ISO 8601 timestamps (2025-01-20T12:00:00Z)
+
+6. DATABASE MAPPING
+   Refer to swagger_specs.md section 14 for field mappings:
+   - Use snake_case in database, camelCase in API
+   - Include all required fields
+   - Mark optional fields as nullable: true
+   - Use correct data types (string, integer, boolean, array, object)
+
+7. VALIDATION
+   Before outputting:
+   - Verify all $ref paths are correct
+   - Ensure all required fields are present
+   - Check that examples are valid
+   - Confirm paths match conventions in swagger_specs.md
+
+OUTPUT FORMAT:
+- Pure YAML syntax
+- Proper indentation (2 spaces)
+- Comments only where helpful
+- No extra explanatory text outside YAML
+
+GENERATE: modules/{MODULE_NAME}.yaml
 ```
 
-Reference: project API spec and response formats in the docs.
+---
+
+## Available Modules
+
+### 1. auth.yaml ✅ (Already generated)
+- Authentication and authorization endpoints
+- Register, login, logout, token refresh
+- Email verification, password reset
+
+### 2. users.yaml
+**Tag:** Users & Profiles  
+**Key Paths:**
+- GET /users/{userId}
+- PUT /users/{userId}
+- POST /users/{userId}/avatar
+- POST /users/{userId}/cover-photo
+- GET /users/search
+- POST /users/{userId}/follow
+- DELETE /users/{userId}/follow
+- GET /users/{userId}/followers
+- GET /users/{userId}/following
+
+**Key Schemas:** UserProfile, ProfilePrivacy, UserStatsSummary
+
+### 3. posts.yaml
+**Tag:** Posts & Comments  
+**Key Paths:**
+- GET /posts/feed
+- POST /posts
+- GET /posts/{postId}
+- PUT /posts/{postId}
+- DELETE /posts/{postId}
+- POST /posts/{postId}/react
+- POST /posts/{postId}/comments
+- GET /posts/{postId}/comments
+- POST /posts/{postId}/share
+- POST /posts/{postId}/bookmark
+
+**Key Schemas:** Post, PostMedia, Comment, Reaction, PostStats
+
+### 4. messages.yaml
+**Tag:** Messaging  
+**Key Paths:**
+- GET /messages/conversations
+- GET /messages/conversations/{conversationId}
+- POST /messages
+- PUT /messages/{messageId}
+- DELETE /messages/{messageId}
+- POST /conversations
+- POST /conversations/{conversationId}/members
+- DELETE /conversations/{conversationId}/members/{userId}
+
+**Key Schemas:** Conversation, Message, MessageReaction, ReadReceipt
+
+### 5. qa.yaml
+**Tag:** Q&A  
+**Key Paths:**
+- GET /qa/questions
+- POST /qa/questions
+- GET /qa/questions/{id}
+- PUT /qa/questions/{id}
+- DELETE /qa/questions/{id}
+- POST /qa/questions/{id}/answers
+- POST /qa/answers/{id}/vote
+- POST /qa/answers/{id}/accept
+
+**Key Schemas:** Question, Answer, QAVote, TagSummary
+
+### 6. events.yaml
+**Tag:** Events  
+**Key Paths:**
+- GET /events
+- POST /events
+- GET /events/{id}
+- PUT /events/{id}
+- DELETE /events/{id}
+- POST /events/{id}/rsvp
+- DELETE /events/{id}/rsvp
+- GET /calendar/personal
+
+**Key Schemas:** Event, RSVP, RecurrenceRule
+
+### 7. marketplace.yaml
+**Tag:** Marketplace  
+**Key Paths:**
+- GET /marketplace/listings
+- POST /marketplace/listings
+- GET /marketplace/listings/{id}
+- PUT /marketplace/listings/{id}
+- DELETE /marketplace/listings/{id}
+- POST /marketplace/listings/{id}/offer
+- PUT /marketplace/listings/{id}/mark-sold
+
+**Key Schemas:** Listing, Offer, ListingImage, ListingStats
+
+### 8. resources.yaml
+**Tag:** Resources  
+**Key Paths:**
+- POST /resources/upload
+- GET /resources/{resourceId}
+- GET /resources/{resourceId}/download
+- PUT /resources/{resourceId}
+- POST /resources/{resourceId}/share
+
+**Key Schemas:** Resource, ResourceVersion, ResourcePermission
+
+### 9. notifications.yaml
+**Tag:** Notifications  
+**Key Paths:**
+- GET /notifications
+- GET /notifications/unread-count
+- PUT /notifications/{id}/read
+- PUT /notifications/mark-all-read
+- GET /notifications/preferences
+- PUT /notifications/preferences
+
+**Key Schemas:** Notification, NotificationPreference
+
+### 10. moderation.yaml
+**Tag:** Moderation  
+**Key Paths:**
+- POST /reports
+- GET /moderation/reports
+- PUT /moderation/reports/{id}
+- POST /moderation/actions
+
+**Key Schemas:** Report, ModerationAction, Warning
 
 ---
 
-## 2) Project-wide OpenAPI boilerplate (shared/_components/shared.yaml)
-- `openapi: 3.0.3`
-- `components:`
-  - `securitySchemes:`
-    - `bearerAuth` (type: http, scheme: bearer, bearerFormat: JWT)
-  - `schemas:`
-    - `ErrorResponse`, `SuccessResponse`, `Pagination`, `Meta`, `UserSummary`, `UUID` etc.
-- `security:` global requirement for protected endpoints (`bearerAuth`).
+## Example Usage
+
+To generate the `users.yaml` module:
+
+```
+Generate the users.yaml module following the master AI script template.
+Module: users
+Refer to swagger_specs.md section 5 for detailed specifications.
+```
 
 ---
 
-## 3) Modules to produce (files)
-- `auth.yaml` — Authentication
-- `users.yaml` — Users & Profiles
-- `posts.yaml` — Posts, Media, Comments, Reactions
-- `messages.yaml` — Conversations & Messages
-- `qa.yaml` — Q&A (questions, answers, votes)
-- `events.yaml` — Events & RSVPs
-- `marketplace.yaml` — Listings, Offers
-- `resources.yaml` — File uploads, permissions
-- `notifications.yaml` — Notification retrieval & preferences
-- `moderation.yaml` — Reports, moderation actions
-- `shared.yaml` — Shared components and common schemas
+## After Generation Checklist
 
-Each module file must include example requests/responses and reference `shared.yaml` for common types.
+Once a module is generated:
+- [ ] Save file to `modules/{MODULE_NAME}.yaml`
+- [ ] Run `npm run bundle` to regenerate combined spec
+- [ ] Validate with `npx swagger-cli validate dist/openapi.json`
+- [ ] Check Swagger UI at https://tamanymamabdullah.github.io/uni-hub-swagger/
+- [ ] Commit and push changes
 
 ---
 
-## 4) Module: Authentication — spec summary (`auth.yaml`)
-Paths (examples):
-- `POST /api/v1/auth/register` — request: email, password, firstName, lastName, universityEmail (optional). Response: `201` with `SuccessResponse` and `user` summary.
-- `POST /api/v1/auth/login` — request: email, password. Response: `200` with `accessToken`, `refreshToken` in secure cookie and body.
-- `POST /api/v1/auth/refresh` — request: refresh token cookie, returns new access token.
-- `POST /api/v1/auth/logout` — invalidates refresh token.
-- `POST /api/v1/auth/verify-email` — token in body.
-- `POST /api/v1/auth/forgot-password` and `POST /api/v1/auth/reset-password`.
+## Bundling Process
 
-Schemas to include locally: `RegisterRequest`, `LoginRequest`, `TokenResponse`, `AuthError`.
+The modular files are combined using `bundle-openapi.js`:
 
-Notes: include `5xx` and auth-specific `401/403` responses.
+1. Reads `shared.yaml` for common components
+2. Reads all `modules/*.yaml` files
+3. Merges paths and schemas
+4. Resolves `$ref` references
+5. Outputs `dist/openapi.json` and `dist/openapi.yaml`
 
----
-
-## 5) Module: Users & Profiles (`users.yaml`)
-Paths:
-- `GET /api/v1/users/{userId}` — returns full profile (subject to privacy settings)
-- `PUT /api/v1/users/{userId}` — update profile fields
-- `POST /api/v1/users/{userId}/avatar` — multipart/form-data upload
-- `POST /api/v1/users/{userId}/cover-photo`
-- `GET /api/v1/users/search` — query params: q, tags, major, year, dept
-- `POST /api/v1/users/{userId}/follow` and `DELETE` for unfollow
-- `GET /api/v1/users/{userId}/followers` and `/following`
-
-Schemas: `UserProfile`, `ProfilePrivacy`, `ProfileExtras`, `UserStatsSummary`.
-
-Mapping: core user fields derived from Prisma `users` and `profiles` models. See DB schema for enums `user_role`, `visibility_level`, etc. (prisma schema).
+**Command:** `npm run bundle`
 
 ---
 
-## 6) Module: Posts & Comments (`posts.yaml`)
-Paths:
-- `GET /api/v1/posts/feed` — params: type, tag, cursor, limit
-- `POST /api/v1/posts` — body: content, postType, media[], visibility, tags, scheduledAt
-- `GET /api/v1/posts/{postId}`
-- `PUT /api/v1/posts/{postId}`
-- `DELETE /api/v1/posts/{postId}`
-- `POST /api/v1/posts/{postId}/react` — body: reactionType
-- `POST /api/v1/posts/{postId}/comments` — body: content, parentId?
-- `GET /api/v1/posts/{postId}/comments` — supports pagination
-- `POST /api/v1/posts/{postId}/share`
-- `POST /api/v1/posts/{postId}/bookmark`
+## Best Practices
 
-Schemas: `Post`, `PostMedia`, `PostDraft`, `Comment`, `PostStats`, `Reaction`.
-
-Notes: media upload endpoints may be delegated to `resources` module or pre-signed S3 flow.
+1. **Consistency:** Follow naming conventions (camelCase for API, snake_case for DB)
+2. **Completeness:** Include all CRUD operations where applicable
+3. **Examples:** Provide realistic, helpful examples
+4. **Security:** Mark public endpoints explicitly with `security: []`
+5. **Pagination:** Use cursor-based pagination for lists
+6. **Errors:** Include appropriate error responses (400, 401, 403, 404, 500)
+7. **Documentation:** Add clear summaries and descriptions
 
 ---
 
-## 7) Module: Messaging & Conversations (`messages.yaml`)
-Paths:
-- `GET /api/v1/messages/conversations` — list user conversations
-- `GET /api/v1/messages/conversations/{conversationId}` — messages (cursor-based)
-- `POST /api/v1/messages` — send message (conversationId, content, attachments[])
-- `PUT /api/v1/messages/{messageId}` — edit
-- `DELETE /api/v1/messages/{messageId}` — delete
-- `POST /api/v1/conversations` — create group/direct conversation
-- `POST /api/v1/conversations/{conversationId}/members`
-- `DELETE /api/v1/conversations/{conversationId}/members/{userId}`
+## Troubleshooting
 
-Schemas: `Conversation`, `Message`, `MessageReaction`, `ReadReceipt`.
+**Problem:** Bundle fails with "Cannot find module"  
+**Solution:** Ensure all referenced modules exist in `modules/` directory
 
-Real-time: mention in docs that websocket events cover `message.created`, `message.read`, `typing`, `presence`.
+**Problem:** Swagger UI shows "No operations defined"  
+**Solution:** Run `npm run bundle` and commit `dist/openapi.json`
+
+**Problem:** Schema references not resolving  
+**Solution:** Check `$ref` paths use `../shared.yaml#/components/schemas/`
 
 ---
 
-## 8) Module: Q&A (`qa.yaml`)
-Paths:
-- `GET /api/v1/qa/questions` — list (filters: tags, unanswered, trending)
-- `POST /api/v1/qa/questions` — create question (title, content, tags, anonymous)
-- `GET /api/v1/qa/questions/{id}`
-- `PUT /api/v1/qa/questions/{id}`
-- `DELETE /api/v1/qa/questions/{id}`
-- `POST /api/v1/qa/questions/{id}/answers` — add answer
-- `POST /api/v1/qa/answers/{id}/vote` — upvote/downvote
-- `POST /api/v1/qa/answers/{id}/accept` — question owner accepts
+## Version History
 
-Schemas: `Question`, `Answer`, `QAVote`, `TagSummary`.
+- v1.0 - Initial master script (Dec 2024)
+- v1.1 - Added bundling automation (Jan 2025)
 
 ---
 
-## 9) Module: Events (`events.yaml`)
-Paths:
-- `GET /api/v1/events` — list
-- `POST /api/v1/events` — create (title, startTime, endTime, location, capacity, virtualLink, recurrenceRule)
-- `GET /api/v1/events/{id}`
-- `PUT /api/v1/events/{id}`
-- `DELETE /api/v1/events/{id}`
-- `POST /api/v1/events/{id}/rsvp` — rsvp status
-- `DELETE /api/v1/events/{id}/rsvp`
-- `GET /api/v1/calendar/personal` — user's combined calendar
-
-Schemas: `Event`, `RSVP`, `RecurrenceRule`.
-
----
-
-## 10) Module: Marketplace (`marketplace.yaml`)
-Paths:
-- `GET /api/v1/marketplace/listings` — filters: category, condition, price range
-- `POST /api/v1/marketplace/listings` — create listing
-- `GET /api/v1/marketplace/listings/{id}`
-- `PUT /api/v1/marketplace/listings/{id}`
-- `DELETE /api/v1/marketplace/listings/{id}`
-- `POST /api/v1/marketplace/listings/{id}/offer` — send offer
-- `PUT /api/v1/marketplace/listings/{id}/mark-sold`
-
-Schemas: `Listing`, `Offer`, `ListingImage`, `ListingStats`.
-
----
-
-## 11) Module: Resources (`resources.yaml`)
-Paths:
-- `POST /api/v1/resources/upload` — multipart upload or pre-signed URL flow
-- `GET /api/v1/resources/{resourceId}` — metadata
-- `GET /api/v1/resources/{resourceId}/download`
-- `PUT /api/v1/resources/{resourceId}` — update metadata/permissions
-- `POST /api/v1/resources/{resourceId}/share` — share with user/group
-
-Schemas: `Resource`, `ResourceVersion`, `ResourcePermission`.
-
-Notes: storage: S3 / R2. Include `max file size`, `allowed mime types`.
-
----
-
-## 12) Module: Notifications (`notifications.yaml`)
-Paths:
-- `GET /api/v1/notifications` — paginated
-- `GET /api/v1/notifications/unread-count`
-- `PUT /api/v1/notifications/{id}/read`
-- `PUT /api/v1/notifications/mark-all-read`
-- `GET /api/v1/notifications/preferences`
-- `PUT /api/v1/notifications/preferences`
-
-Schemas: `Notification`, `NotificationPreference`.
-
----
-
-## 13) Module: Moderation & Reports (`moderation.yaml`)
-Paths:
-- `POST /api/v1/reports` — submit content/user report
-- `GET /api/v1/moderation/reports` — (admin) list reports
-- `PUT /api/v1/moderation/reports/{id}` — update status, assign
-- `POST /api/v1/moderation/actions` — apply ban, warning, remove content
-
-Schemas: `Report`, `ModerationAction`, `Warning`.
-
----
-
-## 14) Database → API mapping (selected models)
-This section maps Prisma/db models to API schemas. Use it to auto-generate `components/schemas`.
-
-### users / profiles (combined API shape: `UserProfile`)
-- `id`, `uuid`, `email`, `role` (enum), `first_name`, `last_name`, `pronouns?`, `is_verified`, `is_active`, `reputation_score`, `created_at`, `updated_at`.
-- profile extras: `avatar_url`, `cover_photo_url`, `bio`, `major`, `graduation_year`, `location`, `timezone`, `locale`.
-
-### posts
-- `id`, `uuid`, `user_id`, `content`, `post_type`, `visibility`, `category`, `media[]` (resource refs), `allow_comments`, `published_at`, `created_at`.
-
-### comments
-- `id`, `uuid`, `post_id`, `user_id`, `content`, `parent_id?`, `path`, `depth`, `created_at`, `updated_at`.
-
-### messages / conversations
-- `conversations`: `id`, `uuid`, `type`, `title`, `created_by`, `created_at`.
-- `messages`: `id`, `conversation_id`, `sender_id`, `content`, `message_type`, `attachments[]`, `created_at`.
-
-### events
-- `events`: `id`, `organizer_id`, `title`, `description`, `start_time`, `end_time`, `location`, `category`, `capacity`, `is_recurring`, `recurrence_rule`, `created_at`.
-
-(Use full Prisma models as authoritative source — provided in uploaded prisma schema.)
-
-Reference: Prisma schema file and docs. Use these models when generating component schemas.
-
----
-
-## 15) Common schemas & examples
-Include in `shared.yaml`:
-- `SuccessResponse`
-- `ErrorResponse`:
-  - `code` (string), `message` (string), `details` (array)
-- `Pagination` (cursor, limit, nextCursor)
-- `Meta` (page, limit, total, hasMore)
-- `UUID` (string, format: uuid)
-
-Provide JSON examples for `UserProfile`, `Post`, `Comment`, `Message`.
-
----
-
-## 16) Security, rate-limits, pagination, errors
-- Security: `bearerAuth` for most endpoints. Public endpoints: register, login, public feed, listings.
-- Rate limits: Document per-tier in `shared.yaml` as `x-rate-limit` vendor extension.
-- Pagination: Cursor-based by default, `limit` param with max 100, default 20.
-- Error handling: Standardized error envelopes with HTTP status codes and `ErrorResponse` body.
-
----
-
-## 17) How to use this file (for AIs / tools)
-1. Use the `shared.yaml` template to create a canonical `components` file.
-2. For each module in section 3, create a YAML file containing `paths` + `components/schemas` referenced from shared.
-3. Validate each generated YAML with `swagger-cli validate` or `openapi-generator`.
-4. Use `openapi-generator` to produce server stubs or client SDKs.
-5. For frontend mocking, create Postman / Mockoon collections from each module.
-
-Tip for AI: Feed this `.md` file as the first prompt, then request the AI to output **one module file** per reply (e.g. `auth.yaml`). Use consistent filenames.
-
----
-
-## 18) Next steps & checklist
-- [ ] I will generate `shared.yaml` (components) (ask me to start)
-- [ ] Then `auth.yaml` (complete with request/response examples)
-- [ ] Then `users.yaml` → `posts.yaml` → `messages.yaml` → `qa.yaml` → `events.yaml` → `marketplace.yaml` → `resources.yaml` → `notifications.yaml` → `moderation.yaml`
-- [ ] Validate and iterate on each module
-- [ ] Produce single combined `openapi.yaml` if desired after review
-
----
-
-*Generated from project documentation and Prisma schema provided by you. For detailed field mapping, refer to the Prisma schema file in the repository for types and enums.*
-
-
-
-
-
-
-
-
-npx swagger-cli bundle openapi.yaml --outfile dist/openapi.json --type json
-
-
-
-npx swagger-cli bundle swagger/uni-hub-swagger/openapi.yaml   --outfile swagger/uni-hub-swagger/dist/openapi.json   --type json   --dereference
-Created swagger\uni-hub-swagger\dist\openapi.json from swagger/uni-hub-swagger/openapi.yaml
+*For questions or updates, refer to swagger_specs.md or contact the API team.*
