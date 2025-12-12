@@ -106,7 +106,6 @@ components:
           type: boolean
           example: false
 
-    # Full user profile for endpoints that require detailed data
     UserProfile:
       type: object
       properties:
@@ -232,3 +231,85 @@ components:
           type: string
         createdAt:
           $ref: "#/components/schemas/Timestamp"
+
+    # ============================================================
+    # Authentication Schemas
+    # ============================================================
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        universityEmail:
+          type: string
+          format: email
+          nullable: true
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        user:
+          $ref: "#/components/schemas/UserSummary"
+
+    TokenRefreshResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+
+    VerifyEmailRequest:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - newPassword
+      properties:
+        token:
+          type: string
+        newPassword:
+          type: string
