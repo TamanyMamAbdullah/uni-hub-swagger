@@ -127,11 +127,14 @@ function bundleOpenAPI() {
   // Write YAML output
   console.log('💾 Writing bundled YAML...');
   const yamlOutput = yaml.dump(resolvedSpec, {
+    indent: 2,
     lineWidth: -1,
     noRefs: true,
-    sortKeys: false
+    sortKeys: false,
+    quotingType: '"',
+    forceQuotes: false
   });
-  fs.writeFileSync(OUTPUT_FILE, yamlOutput);
+  fs.writeFileSync(OUTPUT_FILE, yamlOutput, 'utf8');
 
   // Write JSON output
   console.log('💾 Writing bundled JSON...');
