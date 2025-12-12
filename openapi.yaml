@@ -1,0 +1,42 @@
+openapi: 3.0.3
+
+info:
+  title: Uni Hub API
+  version: 1.0.0
+  description: >
+    Modular OpenAPI specification for the Uni Hub platform.  
+    All endpoint modules are located in ./modules/*.yaml  
+    Shared schemas are located in ./shared.yaml
+
+servers:
+  - url: https://api.unihub.example.com/api/v1
+    description: Production
+  - url: http://localhost:3000/api/v1
+    description: Local Development
+
+paths: {}
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+# Vendor extension to help bundlers
+x-modular-files:
+  shared: "./shared.yaml"
+  modules:
+    - "./modules/auth.yaml"
+    - "./modules/users.yaml"
+    - "./modules/posts.yaml"
+    - "./modules/messages.yaml"
+    - "./modules/qa.yaml"
+    - "./modules/events.yaml"
+    - "./modules/marketplace.yaml"
+    - "./modules/resources.yaml"
+    - "./modules/notifications.yaml"
+    - "./modules/moderation.yaml"

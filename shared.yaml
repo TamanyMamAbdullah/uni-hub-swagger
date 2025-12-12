@@ -1,0 +1,234 @@
+components:
+  schemas:
+    # ============================================================
+    # Basic Types
+    # ============================================================
+
+    UUID:
+      type: string
+      format: uuid
+      example: "a3f47b18-12d4-4b33-99ef-e0f3c4da08cc"
+
+    Timestamp:
+      type: string
+      format: date-time
+      example: "2025-01-20T12:00:00Z"
+
+    Meta:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 123
+        hasMore:
+          type: boolean
+          example: true
+
+    Pagination:
+      type: object
+      properties:
+        cursor:
+          type: string
+          nullable: true
+          example: "eyJpZCI6IjEyMyJ9"
+        limit:
+          type: integer
+          example: 20
+        nextCursor:
+          type: string
+          nullable: true
+          example: "eyJpZCI6IjQ1NiJ9"
+
+    # ============================================================
+    # Standardized API Responses
+    # ============================================================
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+        meta:
+          $ref: "#/components/schemas/Meta"
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: string
+          example: "INVALID_INPUT"
+        message:
+          type: string
+          example: "Email format is invalid."
+        details:
+          type: array
+          items:
+            type: string
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+
+    # ============================================================
+    # Shared Entities Across Modules
+    # ============================================================
+
+    UserSummary:
+      type: object
+      description: Minimal public-facing user fields
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+          nullable: true
+          example: "https://cdn.unihub.com/avatars/u123.png"
+        isVerified:
+          type: boolean
+          example: false
+
+    # Full user profile for endpoints that require detailed data
+    UserProfile:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        bio:
+          type: string
+          nullable: true
+        avatarUrl:
+          type: string
+          nullable: true
+        coverPhotoUrl:
+          type: string
+          nullable: true
+        major:
+          type: string
+          nullable: true
+        graduationYear:
+          type: integer
+          nullable: true
+        location:
+          type: string
+          nullable: true
+        timezone:
+          type: string
+          nullable: true
+        reputationScore:
+          type: integer
+          example: 120
+        createdAt:
+          $ref: "#/components/schemas/Timestamp"
+        updatedAt:
+          $ref: "#/components/schemas/Timestamp"
+
+    # ============================================================
+    # Reusable Entities for Posts, Comments, Messaging, Events
+    # ============================================================
+
+    MediaItem:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        url:
+          type: string
+        type:
+          type: string
+          enum: [image, video, file]
+
+    Reaction:
+      type: object
+      properties:
+        userId:
+          $ref: "#/components/schemas/UUID"
+        type:
+          type: string
+          enum: [like, love, laugh, sad, angry]
+
+    CommentSummary:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        author:
+          $ref: "#/components/schemas/UserSummary"
+        content:
+          type: string
+        createdAt:
+          $ref: "#/components/schemas/Timestamp"
+
+    Notification:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        type:
+          type: string
+        content:
+          type: string
+        isRead:
+          type: boolean
+        createdAt:
+          $ref: "#/components/schemas/Timestamp"
+
+    EventSummary:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        title:
+          type: string
+        location:
+          type: string
+        startTime:
+          $ref: "#/components/schemas/Timestamp"
+
+    ListingSummary:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        title:
+          type: string
+        price:
+          type: number
+        thumbnail:
+          type: string
+
+    MessageSummary:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        sender:
+          $ref: "#/components/schemas/UserSummary"
+        content:
+          type: string
+        createdAt:
+          $ref: "#/components/schemas/Timestamp"
