@@ -1,78 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Uni Hub API Documentation</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui.css" />
-
-  <style>
-    body {
-      margin: 0;
-      background: #f5f5f5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-                   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    }
-
-    .topbar {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 25px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-
-    .topbar h1 {
-      margin: 0;
-      font-size: 32px;
-      font-weight: 600;
-    }
-
-    .topbar p {
-      margin: 8px 0 0 0;
-      font-size: 15px;
-      opacity: 0.9;
-    }
-
-    #swagger-ui {
-      padding: 20px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- Header -->
-  <div class="topbar">
-    <h1>🚀 Uni Hub API</h1>
-    <p>Official REST API Documentation • Modular OpenAPI</p>
-  </div>
-
-  <!-- Swagger UI Container -->
-  <div id="swagger-ui"></div>
-
-  <!-- Swagger UI Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui-bundle.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
-
-  <script>
-    window.onload = () => {
-      const ui = SwaggerUIBundle({
-        url: "./dist/openapi.json",  // Bundled final output
-        dom_id: "#swagger-ui",
-        deepLinking: true,
-        layout: "StandaloneLayout",
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        requestInterceptor: (req) => {
-          console.log("Swagger Request:", req.method, req.url);
-          return req;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uni Hub API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui.css">
+    <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@5.10.5/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@5.10.5/favicon-16x16.png" sizes="16x16" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
         }
-      });
+        .topbar {
+            display: none;
+        }
+        .swagger-ui .info {
+            margin: 50px 0;
+        }
+        .swagger-ui .info .title {
+            font-size: 36px;
+            color: #3b4151;
+        }
+    </style>
+</head>
+<body>
+    <div id="swagger-ui"></div>
 
-      window.ui = ui;
-    };
-  </script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function() {
+            // Determine the spec URL
+            const currentUrl = window.location.href;
+            const baseUrl = currentUrl.endsWith('/') ? currentUrl : currentUrl + '/';
+            const specUrl = baseUrl + 'dist/openapi.json';
+
+            console.log('Loading OpenAPI spec from:', specUrl);
+
+            window.ui = SwaggerUIBundle({
+                url: specUrl,
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout",
+                defaultModelsExpandDepth: 1,
+                defaultModelExpandDepth: 1,
+                docExpansion: "list",
+                filter: true,
+                tryItOutEnabled: true,
+                requestInterceptor: (request) => {
+                    console.log('Request:', request);
+                    return request;
+                },
+                onComplete: () => {
+                    console.log('Swagger UI loaded successfully');
+                },
+                onFailure: (error) => {
+                    console.error('Failed to load OpenAPI spec:', error);
+                    document.getElementById('swagger-ui').innerHTML = `
+                        <div style="padding: 50px; text-align: center;">
+                            <h2 style="color: #f93e3e;">Failed to Load API Specification</h2>
+                            <p>Could not load the OpenAPI specification from: <code>${specUrl}</code></p>
+                            <p style="color: #666;">Error: ${error.message || 'Unknown error'}</p>
+                            <hr style="margin: 30px 0;">
+                            <h3>Troubleshooting:</h3>
+                            <ul style="text-align: left; max-width: 600px; margin: 20px auto;">
+                                <li>Make sure <code>dist/openapi.json</code> exists in your repository</li>
+                                <li>Run <code>npm run bundle</code> to generate the bundled spec</li>
+                                <li>Commit and push the <code>dist/</code> folder to GitHub</li>
+                                <li>Check the browser console for detailed errors</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+            });
+        };
+    </script>
 </body>
 </html>
