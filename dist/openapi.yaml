@@ -19,19 +19,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegisterRequest'
+              $ref: "#/components/schemas/RegisterRequest"
             example:
               email: student@example.com
               password: StrongPassword123
               firstName: John
               lastName: Doe
       responses:
-        '201':
+        "201":
           description: User registered successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
               example:
                 success: true
                 data:
@@ -42,13 +42,13 @@ paths:
                     lastName: Doe
                     isVerified: false
                 meta: {}
-                timestamp: '2025-01-20T12:00:00Z'
-        '400':
+                timestamp: "2025-01-20T12:00:00Z"
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /auth/login:
     post:
       tags:
@@ -59,17 +59,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: "#/components/schemas/LoginRequest"
             example:
               email: student@example.com
               password: StrongPassword123
       responses:
-        '200':
+        "200":
           description: Login successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
+                $ref: "#/components/schemas/LoginResponse"
               example:
                 success: true
                 data:
@@ -81,55 +81,55 @@ paths:
                     firstName: John
                     lastName: Doe
                 meta: {}
-                timestamp: '2025-01-20T12:00:00Z'
-        '401':
+                timestamp: "2025-01-20T12:00:00Z"
+        "401":
           description: Invalid credentials
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /auth/refresh:
     post:
       tags:
         - Authentication
       summary: Refresh the access token
       responses:
-        '200':
+        "200":
           description: New access token created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenRefreshResponse'
+                $ref: "#/components/schemas/TokenRefreshResponse"
               example:
                 success: true
                 data:
                   accessToken: new-jwt-access-token
                 meta: {}
-                timestamp: '2025-01-20T12:00:00Z'
-        '401':
+                timestamp: "2025-01-20T12:00:00Z"
+        "401":
           description: Refresh token expired or invalid
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /auth/logout:
     post:
       tags:
         - Authentication
       summary: Logout user
       responses:
-        '200':
+        "200":
           description: Logged out successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
               example:
                 success: true
                 data:
                   message: Logged out successfully
                 meta: {}
-                timestamp: '2025-01-20T12:00:00Z'
+                timestamp: "2025-01-20T12:00:00Z"
   /auth/verify-email:
     post:
       tags:
@@ -140,22 +140,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VerifyEmailRequest'
+              $ref: "#/components/schemas/VerifyEmailRequest"
             example:
               token: verification-token
       responses:
-        '200':
+        "200":
           description: Email verified
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '400':
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
           description: Invalid token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /auth/forgot-password:
     post:
       tags:
@@ -166,16 +166,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ForgotPasswordRequest'
+              $ref: "#/components/schemas/ForgotPasswordRequest"
             example:
               email: student@example.com
       responses:
-        '200':
+        "200":
           description: Email sent
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
   /auth/reset-password:
     post:
       tags:
@@ -186,23 +186,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResetPasswordRequest'
+              $ref: "#/components/schemas/ResetPasswordRequest"
             example:
               token: reset-token
               newPassword: NewStrongPassword123
       responses:
-        '200':
+        "200":
           description: Password reset successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '400':
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
           description: Invalid token or password
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     bearerAuth:
@@ -217,7 +217,7 @@ components:
     Timestamp:
       type: string
       format: date-time
-      example: '2025-01-20T12:00:00Z'
+      example: "2025-01-20T12:00:00Z"
     Meta:
       type: object
       properties:
@@ -256,9 +256,9 @@ components:
         data:
           type: object
         meta:
-          $ref: '#/components/schemas/Meta'
+          $ref: "#/components/schemas/Meta"
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     ErrorResponse:
       type: object
       properties:
@@ -276,13 +276,13 @@ components:
           items:
             type: string
         timestamp:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     UserSummary:
       type: object
       description: Minimal public-facing user fields
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         email:
           type: string
           format: email
@@ -301,7 +301,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         email:
           type: string
         firstName:
@@ -333,14 +333,14 @@ components:
           type: integer
           example: 120
         createdAt:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
         updatedAt:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     MediaItem:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         url:
           type: string
         type:
@@ -353,7 +353,7 @@ components:
       type: object
       properties:
         userId:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         type:
           type: string
           enum:
@@ -366,18 +366,18 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         author:
-          $ref: '#/components/schemas/UserSummary'
+          $ref: "#/components/schemas/UserSummary"
         content:
           type: string
         createdAt:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     Notification:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         type:
           type: string
         content:
@@ -385,23 +385,23 @@ components:
         isRead:
           type: boolean
         createdAt:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     EventSummary:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         title:
           type: string
         location:
           type: string
         startTime:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     ListingSummary:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         title:
           type: string
         price:
@@ -412,13 +412,13 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/UUID'
+          $ref: "#/components/schemas/UUID"
         sender:
-          $ref: '#/components/schemas/UserSummary'
+          $ref: "#/components/schemas/UserSummary"
         content:
           type: string
         createdAt:
-          $ref: '#/components/schemas/Timestamp'
+          $ref: "#/components/schemas/Timestamp"
     RegisterRequest:
       type: object
       required:
@@ -459,7 +459,7 @@ components:
         refreshToken:
           type: string
         user:
-          $ref: '#/components/schemas/UserSummary'
+          $ref: "#/components/schemas/UserSummary"
     TokenRefreshResponse:
       type: object
       properties:
