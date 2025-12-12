@@ -9,14 +9,15 @@
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script>
     const ui = SwaggerUIBundle({
-      url: "openapi.yaml",   // points to your YAML in the same folder
-      dom_id: "#swagger-ui",
-      presets: [
-        SwaggerUIBundle.presets.apis,
-        SwaggerUIBundle.SwaggerUIStandalonePreset
-      ],
-      layout: "BaseLayout"
-    });
+  url: "openapi.yaml",
+  dom_id: "#swagger-ui",
+  presets: [
+    SwaggerUIBundle.presets.apis,
+    SwaggerUIBundle.SwaggerUIStandalonePreset
+  ],
+  layout: "BaseLayout"
+});
+
   </script>
 </body>
 </html>
