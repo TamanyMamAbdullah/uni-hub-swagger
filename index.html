@@ -35,6 +35,9 @@
             const currentUrl = window.location.href;
             const baseUrl = currentUrl.endsWith('/') ? currentUrl : currentUrl + '/';
             const specUrl = baseUrl + 'dist/openapi.json';
+            
+            // You can also try direct URL if relative doesn't work
+            // const specUrl = 'https://tamanymamabdullah.github.io/uni-hub-swagger/dist/openapi.json';
 
             console.log('Loading OpenAPI spec from:', specUrl);
 
