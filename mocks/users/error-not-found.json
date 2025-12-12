@@ -1,0 +1,13 @@
+{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "User not found",
+    "details": [
+      {
+        "message": "The requested user does not exist"
+      }
+    ]
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}

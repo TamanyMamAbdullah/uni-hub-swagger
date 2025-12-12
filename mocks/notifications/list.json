@@ -1,0 +1,100 @@
+{
+  "success": true,
+  "data": {
+    "notifications": [
+      {
+        "id": "notif_001",
+        "type": "post_reaction",
+        "title": "Jane Smith liked your post",
+        "content": "Jane Smith reacted to your post about the CS401 project",
+        "actor": {
+          "id": "124",
+          "firstName": "Jane",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane"
+        },
+        "relatedEntity": {
+          "type": "post",
+          "id": "456",
+          "preview": "Just finished my final project for CS401! Built a full-stack React/Node.js application..."
+        },
+        "actionUrl": "/posts/456",
+        "isRead": false,
+        "createdAt": "2024-12-07T10:25:00Z"
+      },
+      {
+        "id": "notif_002",
+        "type": "question_answer",
+        "title": "New answer to your question",
+        "content": "Alex Johnson posted an answer to your question about React hooks",
+        "actor": {
+          "id": "125",
+          "firstName": "Alex",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex"
+        },
+        "relatedEntity": {
+          "type": "question",
+          "id": "q_002",
+          "preview": "Best resources for learning React hooks?"
+        },
+        "actionUrl": "/qa/questions/q_002",
+        "isRead": true,
+        "createdAt": "2024-12-07T09:45:00Z"
+      },
+      {
+        "id": "notif_003",
+        "type": "event_reminder",
+        "title": "Hackathon starts tomorrow",
+        "content": "Annual Hackathon 2024 starts tomorrow at 9 AM",
+        "relatedEntity": {
+          "type": "event",
+          "id": "evt_001",
+          "preview": "24-hour coding competition with prizes totaling $10,000"
+        },
+        "actionUrl": "/events/evt_001",
+        "isRead": false,
+        "createdAt": "2024-12-07T08:30:00Z"
+      },
+      {
+        "id": "notif_004",
+        "type": "new_follower",
+        "title": "Sarah Williams started following you",
+        "content": "Sarah Williams is now following you",
+        "actor": {
+          "id": "126",
+          "firstName": "Sarah",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
+        },
+        "actionUrl": "/users/126",
+        "isRead": true,
+        "createdAt": "2024-12-06T22:15:00Z"
+      },
+      {
+        "id": "notif_005",
+        "type": "marketplace_offer",
+        "title": "New offer on your textbook",
+        "content": "Mike Brown offered $40 for your Calculus textbook",
+        "actor": {
+          "id": "127",
+          "firstName": "Mike",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike"
+        },
+        "relatedEntity": {
+          "type": "marketplace_listing",
+          "id": "mkt_001",
+          "preview": "Calculus Textbook - Like New"
+        },
+        "actionUrl": "/marketplace/listings/mkt_001",
+        "isRead": false,
+        "createdAt": "2024-12-06T20:45:00Z"
+      }
+    ],
+    "unreadCount": 3
+  },
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 5,
+    "hasMore": false
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}

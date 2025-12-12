@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "123",
+      "email": "student@university.edu",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "student",
+      "isVerified": true,
+      "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+    },
+    "tokens": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mock",
+      "refreshToken": "refresh_token_mock",
+      "expiresIn": 900
+    }
+  },
+  "meta": {},
+  "timestamp": "2024-12-07T10:30:00Z"
+}

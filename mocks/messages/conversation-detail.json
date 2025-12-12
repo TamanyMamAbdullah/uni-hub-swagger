@@ -1,0 +1,74 @@
+{
+  "success": true,
+  "data": {
+    "id": "conv_001",
+    "type": "direct",
+    "participants": [
+      {
+        "id": "123",
+        "firstName": "John",
+        "lastName": "Doe",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+        "isOnline": true,
+        "lastSeen": "2024-12-07T10:15:00Z"
+      },
+      {
+        "id": "124",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+        "isOnline": false,
+        "lastSeen": "2024-12-07T10:10:00Z"
+      }
+    ],
+    "messages": [
+      {
+        "id": "msg_450",
+        "senderId": "124",
+        "content": "Hi John! How's the CS401 project going?",
+        "messageType": "text",
+        "isRead": true,
+        "createdAt": "2024-12-07T09:30:00Z"
+      },
+      {
+        "id": "msg_451",
+        "senderId": "123",
+        "content": "Going well! Just finished the WebSocket implementation",
+        "messageType": "text",
+        "isRead": true,
+        "createdAt": "2024-12-07T09:32:00Z"
+      },
+      {
+        "id": "msg_452",
+        "senderId": "124",
+        "content": "That's awesome! I'm struggling with the auth part",
+        "messageType": "text",
+        "isRead": true,
+        "createdAt": "2024-12-07T09:35:00Z"
+      },
+      {
+        "id": "msg_453",
+        "senderId": "123",
+        "content": "I can help! Let's meet at the library tomorrow",
+        "messageType": "text",
+        "isRead": true,
+        "createdAt": "2024-12-07T09:40:00Z"
+      },
+      {
+        "id": "msg_456",
+        "senderId": "124",
+        "content": "Hey, are you going to the hackathon this weekend?",
+        "messageType": "text",
+        "isRead": false,
+        "createdAt": "2024-12-07T10:15:00Z"
+      }
+    ]
+  },
+  "meta": {
+    "page": 1,
+    "limit": 50,
+    "total": 5,
+    "hasMore": false
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}

@@ -1,0 +1,84 @@
+{
+  "success": true,
+  "data": {
+    "users": [
+      {
+        "id": "123",
+        "firstName": "John",
+        "lastName": "Doe",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+        "major": "Computer Science",
+        "graduationYear": 2025,
+        "skills": [
+          "JavaScript",
+          "React",
+          "Node.js"
+        ],
+        "isVerified": true
+      },
+      {
+        "id": "124",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+        "major": "Biology",
+        "graduationYear": 2024,
+        "skills": [
+          "Research",
+          "Lab Techniques",
+          "Data Analysis"
+        ],
+        "isVerified": true
+      },
+      {
+        "id": "125",
+        "firstName": "Alex",
+        "lastName": "Johnson",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+        "major": "Business",
+        "graduationYear": 2026,
+        "skills": [
+          "Marketing",
+          "Finance",
+          "Leadership"
+        ],
+        "isVerified": false
+      },
+      {
+        "id": "126",
+        "firstName": "Sarah",
+        "lastName": "Williams",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+        "major": "Psychology",
+        "graduationYear": 2025,
+        "skills": [
+          "Research",
+          "Counseling",
+          "Statistics"
+        ],
+        "isVerified": true
+      },
+      {
+        "id": "127",
+        "firstName": "Mike",
+        "lastName": "Brown",
+        "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
+        "major": "Engineering",
+        "graduationYear": 2024,
+        "skills": [
+          "CAD",
+          "Mechanics",
+          "Physics"
+        ],
+        "isVerified": true
+      }
+    ]
+  },
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 5,
+    "hasMore": false
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}

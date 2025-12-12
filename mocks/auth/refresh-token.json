@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.new_token",
+    "expiresIn": 900
+  },
+  "meta": {},
+  "timestamp": "2024-12-07T10:30:00Z"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "uni-hub-mock-api",
+  "version": "1.0.0",
+  "description": "Mock API for Uni Hub Platform",
+  "main": "create-mocks.js",
+  "scripts": {
+    "create-mocks": "node create-mocks.js",
+    "clean": "rm -rf mocks/",
+    "regenerate": "npm run clean && npm run create-mocks",
+    "serve": "npx serve . -p 8080"
+  },
+  "keywords": [
+    "mock-api",
+    "swagger",
+    "openapi",
+    "university",
+    "student-platform"
+  ],
+  "author": "Uni Hub Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

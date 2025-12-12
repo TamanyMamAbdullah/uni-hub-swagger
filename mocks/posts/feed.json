@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "data": {
+    "posts": [
+      {
+        "id": "456",
+        "user": {
+          "id": "123",
+          "firstName": "John",
+          "lastName": "Doe",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+          "isVerified": true
+        },
+        "content": "Just finished my final project for CS401! Built a full-stack React/Node.js application with real-time features. Learned so much about WebSockets and state management. #cs401 #react #webdev",
+        "postType": "text",
+        "mediaUrls": [
+          "https://images.unsplash.com/photo-1551650975-87deedd944c3"
+        ],
+        "tags": [
+          "cs401",
+          "react",
+          "webdev",
+          "programming"
+        ],
+        "visibility": "university",
+        "reactions": {
+          "like": 24,
+          "love": 8,
+          "laugh": 3,
+          "surprise": 1,
+          "sad": 0,
+          "angry": 0
+        },
+        "commentCount": 12,
+        "shareCount": 5,
+        "bookmarkCount": 3,
+        "isEdited": false,
+        "createdAt": "2024-12-06T14:30:00Z",
+        "updatedAt": "2024-12-06T14:30:00Z"
+      },
+      {
+        "id": "457",
+        "user": {
+          "id": "201",
+          "firstName": "Dr.",
+          "lastName": "Smith",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Smith",
+          "isVerified": true,
+          "role": "teacher"
+        },
+        "content": "Reminder: CS301 midterm exam tomorrow at 10 AM in Room 205. Bring your student ID and calculator. Good luck everyone!",
+        "postType": "announcement",
+        "tags": [
+          "cs301",
+          "exam",
+          "reminder"
+        ],
+        "visibility": "university",
+        "reactions": {
+          "like": 45,
+          "love": 2,
+          "laugh": 0,
+          "surprise": 12,
+          "sad": 5,
+          "angry": 1
+        },
+        "commentCount": 8,
+        "shareCount": 15,
+        "bookmarkCount": 23,
+        "isEdited": false,
+        "createdAt": "2024-12-06T09:15:00Z",
+        "updatedAt": "2024-12-06T09:15:00Z"
+      },
+      {
+        "id": "458",
+        "user": {
+          "id": "124",
+          "firstName": "Jane",
+          "lastName": "Smith",
+          "avatarUrl": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+          "isVerified": true
+        },
+        "content": "Biology lab results are in! Our group's experiment on plant growth with different light spectrums yielded fascinating results. The full paper is now available in the resources section. #biology #research #science",
+        "postType": "text",
+        "mediaUrls": [
+          "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5",
+          "https://images.unsplash.com/photo-1532094349884-543bc11b234d"
+        ],
+        "tags": [
+          "biology",
+          "research",
+          "science",
+          "lab"
+        ],
+        "visibility": "university",
+        "reactions": {
+          "like": 31,
+          "love": 15,
+          "laugh": 2,
+          "surprise": 8,
+          "sad": 0,
+          "angry": 0
+        },
+        "commentCount": 7,
+        "shareCount": 3,
+        "bookmarkCount": 9,
+        "isEdited": true,
+        "createdAt": "2024-12-05T16:45:00Z",
+        "updatedAt": "2024-12-05T17:20:00Z"
+      }
+    ]
+  },
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 3,
+    "hasMore": true
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}

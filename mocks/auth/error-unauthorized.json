@@ -1,0 +1,13 @@
+{
+  "success": false,
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Authentication required",
+    "details": [
+      {
+        "message": "Please login to access this resource"
+      }
+    ]
+  },
+  "timestamp": "2024-12-07T10:30:00Z"
+}
