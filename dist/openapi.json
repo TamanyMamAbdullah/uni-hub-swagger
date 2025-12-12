@@ -3,7 +3,7 @@
   "info": {
     "title": "Uni Hub API",
     "version": "1.0.0",
-    "description": "Modular OpenAPI specification for the Uni Hub platform.   All endpoint modules are located in ./modules/*.yaml   Shared schemas are located in ./shared.yaml\n"
+    "description": "Modular OpenAPI spec for Uni Hub"
   },
   "servers": [
     {

@@ -1,9 +1,14 @@
+openapi: 3.0.3
+info:
+  title: Uni Hub — Auth Module
+  version: 1.0.0
+  description: Authentication endpoints for Uni Hub API
+
 paths:
   /api/v1/auth/register:
     post:
       tags: [Authentication]
       summary: Register a new user
-      description: Creates a new account using email and password.
       requestBody:
         required: true
         content:
@@ -44,7 +49,6 @@ paths:
     post:
       tags: [Authentication]
       summary: Login user
-      description: Validates user credentials and returns access + refresh tokens.
       requestBody:
         required: true
         content:
@@ -84,7 +88,6 @@ paths:
     post:
       tags: [Authentication]
       summary: Refresh the access token
-      description: Generates a new access token using a valid refresh token.
       responses:
         "200":
           description: New access token created
@@ -109,7 +112,6 @@ paths:
     post:
       tags: [Authentication]
       summary: Logout user
-      description: Invalidates the refresh token and logs the user out.
       responses:
         "200":
           description: Logged out successfully
@@ -117,12 +119,12 @@ paths:
             application/json:
               schema:
                 $ref: "../shared.yaml#/components/schemas/SuccessResponse"
-                example:
-                  success: true
-                  data:
-                    message: "Logged out successfully"
-                  meta: {}
-                  timestamp: "2025-01-20T12:00:00Z"
+              example:
+                success: true
+                data:
+                  message: "Logged out successfully"
+                meta: {}
+                timestamp: "2025-01-20T12:00:00Z"
 
   /api/v1/auth/verify-email:
     post:
@@ -196,93 +198,3 @@ paths:
             application/json:
               schema:
                 $ref: "../shared.yaml#/components/schemas/ErrorResponse"
-
-components:
-  schemas:
-    # --- Requests ---
-
-    RegisterRequest:
-      type: object
-      required: [email, password, firstName, lastName]
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-
-    LoginRequest:
-      type: object
-      required: [email, password]
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-
-    VerifyEmailRequest:
-      type: object
-      required: [token]
-      properties:
-        token:
-          type: string
-
-    ForgotPasswordRequest:
-      type: object
-      required: [email]
-      properties:
-        email:
-          type: string
-          format: email
-
-    ResetPasswordRequest:
-      type: object
-      required: [token, newPassword]
-      properties:
-        token:
-          type: string
-        newPassword:
-          type: string
-
-    # --- Responses ---
-
-    LoginResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            accessToken:
-              type: string
-            refreshToken:
-              type: string
-            user:
-              $ref: "../shared.yaml#/components/schemas/UserSummary"
-        meta:
-          $ref: "../shared.yaml#/components/schemas/Meta"
-        timestamp:
-          type: string
-          format: date-time
-
-    TokenRefreshResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            accessToken:
-              type: string
-        meta:
-          $ref: "../shared.yaml#/components/schemas/Meta"
-        timestamp:
-          type: string
-          format: date-time
