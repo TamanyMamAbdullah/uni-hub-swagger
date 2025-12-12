@@ -1,0 +1,14 @@
+{
+  "name": "uni-hub-swagger",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Modular OpenAPI/Swagger specification for Uni Hub",
+  "scripts": {
+    "bundle": "node bundle-openapi.js",
+    "bundle:watch": "nodemon --watch shared.yaml --watch modules --exec npm run bundle"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "nodemon": "^3.0.0"
+  }
+}
