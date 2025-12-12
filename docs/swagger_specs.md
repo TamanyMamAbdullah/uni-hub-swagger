@@ -302,3 +302,8 @@ Tip for AI: Feed this `.md` file as the first prompt, then request the AI to out
 
 
 npx swagger-cli bundle openapi.yaml --outfile dist/openapi.json --type json
+
+
+
+npx swagger-cli bundle swagger/uni-hub-swagger/openapi.yaml   --outfile swagger/uni-hub-swagger/dist/openapi.json   --type json   --dereference
+Created swagger\uni-hub-swagger\dist\openapi.json from swagger/uni-hub-swagger/openapi.yaml
