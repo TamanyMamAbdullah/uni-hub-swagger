@@ -1,0 +1,6 @@
+# .gitattributes
+* text=auto
+*.html linguist-language=HTML
+*.yaml linguist-language=YAML
+*.json linguist-language=JSON
+*.js linguist-language=JavaScript

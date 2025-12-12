@@ -2,120 +2,208 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Uni Hub - API Documentation</title>
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css">
+  <title>Uni Hub API</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui.css">
   <style>
-    html {
-      box-sizing: border-box;
-      overflow: -moz-scrollbars-vertical;
-      overflow-y: scroll;
-    }
-    *,
-    *:before,
-    *:after {
-      box-sizing: inherit;
-    }
-    body {
-      margin: 0;
-      background: #fafafa;
-    }
+    html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body { margin: 0; background: #fafafa; }
     .topbar {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px 0;
+      padding: 20px;
       color: white;
       text-align: center;
-      margin-bottom: 20px;
     }
-    .topbar h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-    .topbar p {
-      margin: 10px 0 0 0;
-      opacity: 0.9;
-    }
-    .info-box {
-      max-width: 1200px;
-      margin: 0 auto 20px;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .warning {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 15px;
-      margin: 20px 0;
-      border-radius: 4px;
-    }
+    #swagger-ui { padding: 40px 20px; }
   </style>
 </head>
 <body>
   <div class="topbar">
-    <h1>🎓 Uni Hub API</h1>
-    <p>Mock Backend for Development & Testing</p>
+    <h1 style="margin: 0;">🎓 Uni Hub API - Mock Backend</h1>
+    <p style="margin: 10px 0 0 0;">Hosted on GitHub Pages • All endpoints return mock data</p>
   </div>
   
-  <div class="info-box">
-    <h2>📚 About This API</h2>
-    <p>This is a mock API for the Uni Hub platform. All endpoints return static JSON data from GitHub Pages.</p>
-    
-    <div class="warning">
-      <strong>⚠️ Important Notes:</strong>
-      <ul>
-        <li>This is a <strong>mock API only</strong> - no actual data is stored or modified</li>
-        <li>All POST/PUT/DELETE requests will return success responses but won't persist changes</li>
-        <li>Use for frontend development and testing only</li>
-        <li>All URLs are relative and work on GitHub Pages</li>
-      </ul>
-    </div>
-    
-    <h3>🔗 Quick Links</h3>
-    <ul>
-      <li><a href="https://github.com/yourusername/uni-hub-swagger" target="_blank">GitHub Repository</a></li>
-      <li><a href="#paths">Available Endpoints</a></li>
-      <li><a href="https://unihub.university" target="_blank">Uni Hub Website</a></li>
-    </ul>
-  </div>
-
   <div id="swagger-ui"></div>
 
-  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui-bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui-standalone-preset.js"></script>
   <script>
     window.onload = function() {
-      const ui = SwaggerUIBundle({
-        url: "./openapi.yaml",
+      // Use inline OpenAPI spec to avoid path issues
+      const spec = {
+        "openapi": "3.0.3",
+        "info": {
+          "title": "Uni Hub API",
+          "description": "Complete mock API for Uni Hub platform",
+          "version": "1.0.0"
+        },
+        "servers": [
+          {
+            "url": ".",
+            "description": "GitHub Pages"
+          }
+        ],
+        "paths": {
+          "/mocks/auth/login.json": {
+            "get": {
+              "tags": ["Authentication"],
+              "summary": "Login user",
+              "responses": {
+                "200": {
+                  "description": "Login successful",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/users/123.json": {
+            "get": {
+              "tags": ["Users"],
+              "summary": "Get user profile",
+              "responses": {
+                "200": {
+                  "description": "User profile",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/posts/feed.json": {
+            "get": {
+              "tags": ["Posts"],
+              "summary": "Get user feed",
+              "responses": {
+                "200": {
+                  "description": "Feed retrieved",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/messages/conversations.json": {
+            "get": {
+              "tags": ["Messaging"],
+              "summary": "Get conversations",
+              "responses": {
+                "200": {
+                  "description": "Conversations list",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/qa/questions.json": {
+            "get": {
+              "tags": ["Q&A"],
+              "summary": "Get questions",
+              "responses": {
+                "200": {
+                  "description": "Questions list",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/events/list.json": {
+            "get": {
+              "tags": ["Events"],
+              "summary": "Get events",
+              "responses": {
+                "200": {
+                  "description": "Events list",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/marketplace/listings.json": {
+            "get": {
+              "tags": ["Marketplace"],
+              "summary": "Get marketplace listings",
+              "responses": {
+                "200": {
+                  "description": "Marketplace listings",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/mocks/notifications/list.json": {
+            "get": {
+              "tags": ["Notifications"],
+              "summary": "Get notifications",
+              "responses": {
+                "200": {
+                  "description": "Notifications list",
+                  "content": {
+                    "application/json": {
+                      "schema": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "SuccessResponse": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean", "example": true },
+                "data": { "type": "object" },
+                "meta": { "type": "object" },
+                "timestamp": { "type": "string", "format": "date-time" }
+              }
+            }
+          }
+        }
+      };
+
+      // Initialize Swagger UI with inline spec
+      window.ui = SwaggerUIBundle({
+        spec: spec,
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
           SwaggerUIBundle.presets.apis,
           SwaggerUIStandalonePreset
         ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
         layout: "StandaloneLayout",
-        defaultModelsExpandDepth: 1,
-        defaultModelExpandDepth: 1,
-        docExpansion: 'list',
         tryItOutEnabled: true,
         requestInterceptor: function(request) {
-          // Handle mock requests
-          if (request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE') {
-            console.log(`Mock ${request.method} request to: ${request.url}`);
-            // Return a mock response based on the endpoint
-            return request;
-          }
+          console.log('Request:', request.method, request.url);
           return request;
-        },
-        responseInterceptor: function(response) {
-          return response;
         }
       });
-      
-      window.ui = ui;
     };
   </script>
 </body>
