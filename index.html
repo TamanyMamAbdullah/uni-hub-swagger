@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Swagger UI</title>
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
-  </head>
-  <body>
-    <div id="swagger-ui"></div>
-    <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-    <script>
-      const ui = SwaggerUIBundle({
-        url: "openapi.yaml",   // points to the YAML in the same folder
-        dom_id: "#swagger-ui",
-      });
-    </script>
-  </body>
+<head>
+  <title>Swagger UI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script>
+    const ui = SwaggerUIBundle({
+      url: "openapi.yaml",   // points to your YAML in the same folder
+      dom_id: "#swagger-ui",
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIBundle.SwaggerUIStandalonePreset
+      ],
+      layout: "BaseLayout"
+    });
+  </script>
+</body>
 </html>
